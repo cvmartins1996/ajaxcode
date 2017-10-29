@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax 5 - com PHP</title>
+</head>
+<body>
+    <button id="button">Nome</button>
+    <script>
+        document.getElementById('button').addEventListener('click', loadName);
+
+        function loadName(){
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'process.php?nome=Caio', true);
+
+            xhr.onload = function(){
+                console.log(this.responseText);
+            }
+            xhr.send();
+        }
+    </script>
+</body>
+</html>

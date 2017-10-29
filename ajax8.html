@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax 8 - FETCH DATA</title>
+</head>
+<body>
+  <button id="button">Ver Usuários</button>
+  
+  <h1>Usuários</h1>
+  <div id="users"></div>
+
+  <script>
+      document.getElementById('button').addEventListener('click', loadUsers);
+
+      function loadUsers(){
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'users.php', true);
+          //console.log('eu estou aqui');
+          xhr.onload = function(){
+              if(this.status == 200){
+                //console.log('eu estou aqui');
+                var users = JSON.parse(this.responseText);
+                
+                var saida = '';
+
+                for (var i in users) {
+                    saida += '<ul>'+
+                        '<li>ID: '+users[i].id+'</li>'+
+                        '<li>Nome: '+users[i].nome+'</li>'+
+                        '</ul>';    
+                }
+                
+                document.getElementById('users').innerHTML = saida;
+
+              } else if (this.status == 404){
+                document.getElementById('users').innerHTML = "arquivo não encontrado";
+              } else {
+                document.getElementById('users').innerHTML = xhr.onerror();
+              }
+          }
+          xhr.send();
+      }
+  </script>  
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ajax 3 - Local JSON</title>
+</head>
+<body>
+  <button id="button1">Ver Usuário</button>
+  <button id="button2">Ver Usuários</button>
+  <br><br>
+
+  <h1>Usuário</h1>
+  <div id="user"></div>
+  <h1>Usuários</h1>
+  <div id="users"></div>
+
+  <script>
+      document.getElementById('button1').addEventListener('click', loadUser);
+
+      function loadUser(){
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'user.json', true);
+
+          xhr.onload = function (){
+              if(this.status == 200){
+                  //console.log(this.responseText);
+                  var user = JSON.parse(this.responseText);
+
+                  var saida = '';
+                  saida += '<ul>' +
+                  '<li>ID: ' + user.id+'</li>' +
+                  '<li>Nome: ' + user.nome+'</li>'+
+                  '<li>email: ' + user.email+'</li>'+
+                  '</ul>';
+                  document.getElementById('user').innerHTML = saida;
+              } else if (this.status == 404){
+                  document.getElementById('user').innerHTML = "Arquivo não encontrado";
+              } else {
+                  document.getElementById('user').innerHTML = xhr.onerror();
+              }
+          }
+          xhr.send();
+      }
+
+      document.getElementById('button2').addEventListener('click', loadUsers);
+
+      function loadUsers(){
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', 'users.json', true);
+          console.log('eu estou aqui');
+          xhr.onload = function(){
+              if(this.status == 200){
+                //console.log('eu estou aqui');
+                var users = JSON.parse(this.responseText);
+
+                var saida = '';
+
+                for (var i in users) {
+                    saida += '<ul>'+
+                        '<li>ID: '+users[i].id+'</li>'+
+                        '<li>Nome: '+users[i].nome+'</li>'+
+                        '<li>email: '+users[i].email+'</li>'+
+                        '</ul>';    
+                }
+                
+                document.getElementById('users').innerHTML = saida;
+
+              } else if (this.status == 404){
+                document.getElementById('users').innerHTML = "arquivo não encontrado";
+              } else {
+                document.getElementById('users').innerHTML = xhr.onerror();
+              }
+          }
+          xhr.send();
+      }
+  </script>  
+</body>
+</html>
